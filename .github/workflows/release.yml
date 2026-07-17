@@ -1,0 +1,34 @@
+name: Release
+
+# fire when a version tag is pushed, e.g. git tag v0.1.0 && git push --tags
+on:
+  push:
+    tags: ["v*"]
+
+# gh release create needs write access to contents
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      # cross-compile one binary per target into dist/
+      - name: build binaries
+        run: |
+          mkdir dist
+          GOOS=linux   GOARCH=amd64 go build -o dist/integrity_monitor_linux_amd64 .
+          GOOS=linux   GOARCH=arm64 go build -o dist/integrity_monitor_linux_arm64 .
+          GOOS=windows GOARCH=amd64 go build -o dist/integrity_monitor_windows_amd64.exe .
+
+      # create the release for this tag and attach the binaries
+      - name: publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "${GITHUB_REF_NAME}" dist/* --generate-notes

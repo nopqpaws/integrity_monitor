@@ -1,0 +1,7 @@
+# built binaries
+/integrity_monitor
+/integrity_monitor.exe
+/dist/
+
+# local baseline manifest
+/.integrity.json
