@@ -223,7 +223,7 @@ func walkDirRecursive(root string, manifestPath string) ([]string, error) {
 // print the error and exit 1, saves repeating this all over main
 func fail(err error) {
 	fmt.Println("Error:", err)
-	os.Exit(1)s
+	os.Exit(1)
 }
 
 func main() {
