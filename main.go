@@ -11,7 +11,7 @@ import (
 	"time"          // time.Now(), time.RFC3339
 )
 
-// default manifest filename when no path is given via CLI
+// default manifest filename when no path is given via Cli
 const manifestName = ".integrity.json"
 
 // FileEntry is what the baseline stores per file. json only sees exported (capital) fields
